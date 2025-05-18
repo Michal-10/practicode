@@ -9,8 +9,7 @@ namespace CV_Site_API.Controllers
     [ApiController]
     public class GitHubController : ControllerBase
     {
-        //לעשות שיהיה אפשר שדות אפציונאלייים
-        //לעשות חיפוש לא רק לשפה אחת 
+
         private readonly IGitHubService _gitHubService;
 
         public GitHubController(IGitHubService gitHubService)
@@ -33,17 +32,10 @@ namespace CV_Site_API.Controllers
         }
 
         [HttpGet("search")]
-        public async Task<IActionResult> SearchRepositories([FromQuery] string repositoryName="", [FromQuery] string language="", [FromQuery] string username="")
+        public async Task<IActionResult> SearchRepos([FromQuery] string? name, [FromQuery] string? language, [FromQuery] string? user)
         {
-            try
-            {
-                var repositories = await _gitHubService.SearchRepositoriesAsync(repositoryName, language, username);
-                return Ok(repositories);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new { message = ex.Message });
-            }
+            var result = await _gitHubService.SearchRepositories(name, language, user);
+            return Ok(result);
         }
 
         [HttpGet("portfolio")]

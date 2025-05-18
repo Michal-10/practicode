@@ -10,7 +10,7 @@ namespace Service
     public interface IGitHubService
     {
         Task<IReadOnlyList<Repository>> GetUserRepositoriesAsync();
-        Task<IEnumerable<Repository>> SearchRepositoriesAsync(string query, string language, string user);
+        Task<IReadOnlyList<Repository>> SearchRepositories(string? repoName, string? language, string? user);
         Task<List<RepositoryInfo>> GetPortfolioAsync();
 
 

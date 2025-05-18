@@ -3,6 +3,16 @@ using Microsoft.Extensions.DependencyInjection;
 using Service; // Ensure this namespace exists in your project  
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowReact", policy =>
+    {
+        policy.WithOrigins("*") // כתובת של React שלך
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
+
 
 // הוספת קונפיגורציה ל-secrets  
 //builder.Configuration.AddUserSecrets<Program>();  
@@ -39,8 +49,12 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+// הפעלת ה-CORS
+app.UseCors("AllowReact");
+
 app.UseAuthorization();
 
 app.MapControllers();
+
 
 app.Run();
